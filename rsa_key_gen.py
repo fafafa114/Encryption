@@ -1,3 +1,4 @@
+# still some bugs
 import random
 import sys
 import getopt

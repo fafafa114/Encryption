@@ -10,7 +10,7 @@ Support encryption and decryption of Casear, Vigenere and Vernam cipher and crac
 
 #### Usage
 
-```bash
+```
 main.py [-c][-v][-V][-e][-d][-C][-h] -i <input file> -o <output file> -k <key file>
         -c : Caesar, key should be an integer
         -v : Vigenere, key should be a string

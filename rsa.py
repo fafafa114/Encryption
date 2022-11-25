@@ -14,7 +14,7 @@ def is_prime(n):
     while d % 2 == 0:
         d //= 2
         s += 1
-    for _ in range(50):
+    for _ in range(20):
         a = random.randint(2, n-2)
         x = pow(a, d, n)
         if x == 1 or x == n - 1:
@@ -85,10 +85,11 @@ def rsa_encrypt_file(inf, outf, key):
         m = inf.read(bs)
         if not m:
             break
-        m = int.from_bytes(m.encode(), 'big')
+        m = int.from_bytes(m, 'big')
         # m = 0xFF + (m << 8)
         c = rsa_encrypt(m, key)
-        outf.write(c.to_bytes(bs, 'big').decode('utf-8', 'ignore'))
+        outf.write(c.to_bytes(bs, 'big'))
+
 
 def rsa_decrypt_file(inf, outf, key):
     n, d = key
@@ -97,17 +98,18 @@ def rsa_decrypt_file(inf, outf, key):
         c = inf.read(bs)
         if not c:
             break
-        c = int.from_bytes(c.encode(), 'big')
-        m = rsa_decrypt(c, key)
+        c = int.from_bytes(c, 'big')
+        m = rsa_decrypt(c, key)        
         # m = m >> 8
-        outf.write(m.to_bytes(bs, 'big').decode('utf-8', 'ignore'))
+        outf.write(m.to_bytes((m.bit_length() + 7) // 8, 'big'))
+
 
 def main():
     def usage():
         print('''
         Usage: rsa.py -g -b <bits>
                  -g : generate keys  
-                 -b : bits of the key (default 1024)
+                 -b : bits of the key (default 1024), should be no less than 128
                rsa.py -e -i <input file> -o <output file> -k <public key file>
                rsa.py -d -i <input file> -o <output file> -k <private key file>
                  -e : encrypt
@@ -133,7 +135,13 @@ def main():
         if opt == '-g':
             gen = True
         elif opt == '-b':
+            if not arg.isdigit():
+                print('bits should be a number')
+                sys.exit(1)
             bits = int(arg)
+            if bits < 128:
+                print('bits should be no less than 128')
+                sys.exit(1)
         elif opt == '-e':
             if encrypt == -1:
                 encrypt = 1
@@ -168,16 +176,19 @@ def main():
             f.write(f'{prv[0]} {prv[1]}')
         print(f'Public key: \nn={pub[0]}\ne={pub[1]}')
         print(f'Private key: \nn={prv[0]}\nd={prv[1]}')
+        print('have been saved to rsa.pub and rsa.prv')
     else:
         if not keyf:
             usage()
             sys.exit(1)
         n, e = map(int, open(keyf).read().split())
-        inf = open(inf, 'r')
-        outf = open(outf, 'w')
         if encrypt:
+            inf = open(inf, 'rb')
+            outf = open(outf, 'wb')
             rsa_encrypt_file(inf, outf, (n, e))
         else:
+            inf = open(inf, 'rb')
+            outf = open(outf, 'wb')
             rsa_decrypt_file(inf, outf, (n, e))
         inf.close()
         outf.close()

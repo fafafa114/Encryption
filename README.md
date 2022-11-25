@@ -6,7 +6,13 @@ Simple password encryption encryption tool
 
 Support encryption and decryption of Casear, Vigenere and Vernam cipher and cracking Casear cipher with brute force and frequency analysis method.The cracking method is automatically selected based on the text length.
 
-~~RSA - coming~~
+
+
+RSA:
+
+Support generating public key private key function, support 1024-bit large integer, use the Miller-Rabin algorithm to determine the prime number.
+
+
 
 #### Usage
 
@@ -48,5 +54,11 @@ python3 main.py -Ve -i tests/article1.txt -o ou
 tput/article1_en.txt -k tests/key_Vernam.txt
 python3 main.py -Vd -i output/article1_en.txt -o output/article1_de.txt -k tests/key_Vernam.txt
 diff tests/article1.txt output/article1_de.txt
+```
+
+```
+python3 rsa_key_gen.py -e -i tests/short_text.txt -o output/short_en.txt -k rsa.pub
+python3 rsa_key_gen.py -d -i output/short_en.txt -o output/short_de.txt -k rsa.prv
+diff output/short_de.txt tests/short_text.txt
 ```
 

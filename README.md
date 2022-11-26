@@ -31,17 +31,16 @@ main.py [-c][-v][-V][-e][-d][-C][-h] -i <input file> -o <output file> -k <key fi
 ```
 
 ```
-Usage: rsa.py -g -b <bits>
-                 -g : generate keys
-                 -b : bits of the key (default 1024), should be no less than 128
-               rsa.py -e -i <input file> -o <output file> -k <public key file>
-               rsa.py -d -i <input file> -o <output file> -k <private key file>
-                 -e : encrypt
-                 -d : decrypt
-                 -i : input file (default input.txt)
-                 -o : output file (default output.txt)
-                 -k : key file
-
+rsa.py -g -b <bits>
+        -g : generate keys
+        -b : bits of the key (default 1024), should be no less than 128
+rsa.py -e -i <input file> -o <output file> -k <public key file>
+rsa.py -d -i <input file> -o <output file> -k <private key file>
+        -e : encrypt
+        -d : decrypt
+        -i : input file (default input.txt)
+        -o : output file (default output.txt)
+        -k : key file
 ```
 
 #### Example

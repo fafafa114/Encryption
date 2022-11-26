@@ -30,6 +30,20 @@ main.py [-c][-v][-V][-e][-d][-C][-h] -i <input file> -o <output file> -k <key fi
         -h : help
 ```
 
+```
+Usage: rsa.py -g -b <bits>
+                 -g : generate keys
+                 -b : bits of the key (default 1024), should be no less than 128
+               rsa.py -e -i <input file> -o <output file> -k <public key file>
+               rsa.py -d -i <input file> -o <output file> -k <private key file>
+                 -e : encrypt
+                 -d : decrypt
+                 -i : input file (default input.txt)
+                 -o : output file (default output.txt)
+                 -k : key file
+
+```
+
 #### Example
 
 ```bash
@@ -57,8 +71,8 @@ diff tests/article1.txt output/article1_de.txt
 ```
 
 ```
-python3 rsa_key_gen.py -e -i tests/short_text.txt -o output/short_en.txt -k rsa.pub
-python3 rsa_key_gen.py -d -i output/short_en.txt -o output/short_de.txt -k rsa.prv
+python3 rsa.py -e -i tests/short_text.txt -o output/short_en.txt -k rsa.pub
+python3 rsa.py -d -i output/short_en.txt -o output/short_de.txt -k rsa.prv
 diff output/short_de.txt tests/short_text.txt
 ```
 

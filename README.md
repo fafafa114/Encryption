@@ -70,6 +70,7 @@ diff tests/article1.txt output/article1_de.txt
 ```
 
 ```
+python3 rsa.py -g
 python3 rsa.py -e -i tests/short_text.txt -o output/short_en.txt -k rsa.pub
 python3 rsa.py -d -i output/short_en.txt -o output/short_de.txt -k rsa.prv
 diff output/short_de.txt tests/short_text.txt

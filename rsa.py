@@ -4,6 +4,8 @@ import sys
 import getopt
 import os
 
+
+# miller rabin algorithm, time complexity O(k*polylog(n)), k is number of iterations, probability of error: 4^{-k}
 def is_prime(n):
     if n == 2:
         return True
@@ -14,7 +16,7 @@ def is_prime(n):
     while d % 2 == 0:
         d //= 2
         s += 1
-    for _ in range(20):
+    for _ in range(50): # 50 times of iteration
         a = random.randint(2, n-2)
         x = pow(a, d, n)
         if x == 1 or x == n - 1:
@@ -29,20 +31,20 @@ def is_prime(n):
             return False
     return True
 
-
+# generate big prime no less than bits bits
 def generate_big_prime(bits):
     while True:
         n = random.randint(2**bits, 2**(bits+20))
         if is_prime(n):
             return n
 
-
+# greatest common divisor
 def gcd(a, b):
     while b:
         a, b = b, a % b
     return a
 
-
+# using ex_gcd algorithm to calculate the inverse of a mod n
 def inv(a, n):
     def ex_gcd(a, b):
         if b == 0:
@@ -52,7 +54,7 @@ def inv(a, n):
     x, y = ex_gcd(a, n)
     return x % n
 
-
+# generate public key and private key
 def rsa_make_keys(nbits):
     bits_p = nbits // 4 + random.randint(0, nbits // 2)
     bits_q = nbits - bits_p
@@ -67,21 +69,21 @@ def rsa_make_keys(nbits):
     d = inv(e, phi)
     return (n, e), (n, d)
 
-
+# encrypt a message
 def rsa_encrypt(m, key):
     n, e = key
     return pow(m, e, n)
 
-
+# decrypt a message
 def rsa_decrypt(c, key):
     n, d = key
     return pow(c, d, n)
 
-
+# encrypt a file
 def rsa_encrypt_file(inf, outf, key):
     n, e = key
-    bs = (n.bit_length() + 7) // 8
-    while True:
+    bs = (n.bit_length() + 7) // 8 # block size
+    while True: # read file block by block
         m = inf.read(bs)
         if not m:
             break

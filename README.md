@@ -1,6 +1,6 @@
 # Encryption
 
-This is Yang Chenran’s python project.
+This is **Yang Chenran**’s python project.
 
 #### Introduction
 
